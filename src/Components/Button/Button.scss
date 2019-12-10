@@ -1,0 +1,17 @@
+.btn {
+  height: 4em;
+
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.5em;
+  background-color: #e0e1e6;
+
+  color: #888;
+  outline: 1px solid #888;
+
+  opacity: 0.7;
+  transition: 0.2s;
+  &:hover {
+    opacity: 1;
+  }
+}
