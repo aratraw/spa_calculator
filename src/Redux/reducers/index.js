@@ -23,7 +23,9 @@ let calcReducer = (CalcState = defaultState, action) => {
     case CALCULATE:
       return { ...CalcState, result: eval(CalcState.result.slice()) };
     case CLEAR:
-      return { ...CalcState, result: eval(CalcState.result.slice()) };
+      let slice = CalcState.result.slice(0, -1);
+      let res = slice === "" ? "0" : slice;
+      return { ...CalcState, result: res };
     case CLEAR_ALL:
       return { ...CalcState, result: "0" };
 
