@@ -2,35 +2,44 @@ import { combineReducers } from "redux";
 import { INSERT, CALCULATE, CLEAR, CLEAR_ALL } from "../constants";
 
 const defaultState = {
-  result: "0"
+  result: "0",
+  ExprHistory: []
 };
 
-let calcReducer = (CalcState = defaultState, action) => {
+let calcReducer = (state = defaultState, action) => {
   //state=defaultState - ES6
   const { type, payload } = action;
   switch (type) {
     case INSERT: {
-      if (CalcState.result === "0")
+      if (state.result === "0")
         return {
-          ...CalcState,
+          ...state,
           result: payload
         };
       return {
-        ...CalcState,
-        result: ("" + CalcState.result).slice() + payload
+        ...state,
+        result: ("" + state.result).slice() + payload
       };
     }
-    case CALCULATE:
-      return { ...CalcState, result: eval(CalcState.result.slice()) };
-    case CLEAR:
-      let slice = CalcState.result.slice(0, -1);
+    case CALCULATE: {
+      let expr = state.result.slice();
+      let res = eval(expr);
+      return {
+        ...state,
+        result: res,
+        ExprHistory: [...state.ExprHistory, expr]
+      };
+    }
+    case CLEAR: {
+      let slice = state.result.slice(0, -1);
       let res = slice === "" ? "0" : slice;
-      return { ...CalcState, result: res };
+      return { ...state, result: res };
+    }
     case CLEAR_ALL:
-      return { ...CalcState, result: "0" };
+      return { ...state, result: "0", ExprHistory: [] };
 
     default:
-      return CalcState;
+      return state;
   }
 };
 
